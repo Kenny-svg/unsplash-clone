@@ -1,7 +1,9 @@
 <template>
   <div v-if="photo">
     <div class="modal-overlay" @click="$emit('close')"></div>
-    <span class="close-icon" @click="$emit('close')">X</span>
+    <span class="close-icon" @click="$emit('close')">
+      <font-awesome-icon icon="close"
+    /></span>
     <div class="modal-content">
       <img
         :src="loading ? photo?.urls.thumb : photo?.urls.full"
@@ -77,15 +79,39 @@ export default {
     text-align: left;
   }
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 20;
+    overflow: hidden;
 
+    img {
+      height: 300px;
+      width: 100%;
+      object-fit: cover;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+    }
+    img.loading {
+      filter: blur(10px);
+    }
+  }
+}
 .close-icon {
   position: fixed;
   top: 30px;
-  right: 200px;
-  font-size: 1.2rem;
+  right: 10%;
+  font-size: 1.5rem;
   cursor: pointer;
   color: #fff;
-  padding: 5px;
+  padding: 8px;
   border-radius: 50%;
   z-index: 30;
   transition: background 0.3s ease;

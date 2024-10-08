@@ -1,7 +1,9 @@
 <template>
   <div class="search-bar">
     <div class="search-input-wrapper">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon">
+        <font-awesome-icon icon="search" />
+      </span>
       <input
         v-model="query"
         placeholder="Search for photo"
