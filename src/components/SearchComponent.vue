@@ -7,7 +7,7 @@
       <input
         v-model="query"
         placeholder="Search for photo"
-        @input="searchPhotos"
+        @keyup.enter="searchPhotos"
       />
     </div>
   </div>
@@ -23,13 +23,9 @@ export default {
   },
   methods: {
     async searchPhotos() {
+      this.$emit("searching", this.query);
       try {
         this.$emit("search", this.query);
-        this.$emit("searching", this.query);
-        const response = await this.$axios.get(
-          `https://api.unsplash.com/search/photos?query=${this.query}`
-        );
-        this.$emit("search", response.data.results, this.query);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }

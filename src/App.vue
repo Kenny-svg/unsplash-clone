@@ -1,6 +1,10 @@
 <template>
   <div class="background">
-    <SearchComponent @searching="handleSearching" @search="getPhotos" />
+    <SearchComponent
+      v-if="!searching && !searchQuery"
+      @searching="handleSearching"
+      @search="searchPhotos"
+    />
     <div v-if="searching" class="search-status">
       Searching for <span class="search-query">"{{ searchQuery }}"</span>
     </div>
@@ -8,7 +12,13 @@
     <div v-if="!searching && searchQuery" class="search-status">
       Search results for <span class="search-query">"{{ searchQuery }}"</span>
     </div>
-    <PhotoGrid :photos="photos" :loading="loading" @show-photo="showPhoto" />
+    <PhotoGrid
+      :photos="photos"
+      :loading="loading"
+      :searchQuery="searchQuery"
+      @show-photo="showPhoto"
+    />
+
     <ModalComponent
       v-if="selectedPhoto"
       :photo="selectedPhoto"
@@ -41,36 +51,47 @@ export default {
     this.getPhotos();
   },
   methods: {
-    handleSearching(query) {
+    // handleSearching(query) {
+    //   this.searchQuery = query;
+    //   this.searching = true;
+    //   this.loading = true;
+    // },
+    async searchPhotos(query = "") {
       this.searchQuery = query;
       this.searching = true;
       this.loading = true;
-    },
-    async getPhotos(photos = null, query = "") {
-      this.searchQuery = query;
-
-      if (photos) {
-        this.photos = photos;
-      } else {
-        try {
-          this.loading = true;
-          const response = await this.$axios.get(
-            "https://api.unsplash.com/search/photos",
-            {
-              params: {
-                query: "Africa",
-                per_page: 8,
-              },
-            }
-          );
-          this.photos = response.data.results;
-        } catch (error) {
-          console.error("Error fetching African-themed photos:", error);
-        }
+      try {
+        const response = await this.$axios.get(
+          `https://api.unsplash.com/search/photos?query=${query}`
+        );
+        this.photos = response.data.results;
+        console.log(this.photos, "search results");
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      } finally {
+        this.loading = false;
+        this.searching = false;
       }
-
-      this.loading = false;
-      this.searching = false;
+    },
+    async getPhotos() {
+      this.loading = true;
+      try {
+        const response = await this.$axios.get(
+          "https://api.unsplash.com/search/photos",
+          {
+            params: {
+              query: "Africa",
+              per_page: 8,
+            },
+          }
+        );
+        this.photos = response.data.results;
+        console.log(this.photos, "default results");
+      } catch (error) {
+        console.error("Error fetching African-themed photos:", error);
+      } finally {
+        this.loading = false;
+      }
     },
     showPhoto(photo) {
       this.selectedPhoto = photo;

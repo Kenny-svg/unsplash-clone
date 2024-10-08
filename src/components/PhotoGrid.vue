@@ -1,11 +1,15 @@
 <template>
   <div class="photo-grid">
+    <div v-if="!loading && photos.length === 0" class="no-results">
+      No results found for "{{ searchQuery }}"
+    </div>
     <div
-      v-for="photo in photos"
-      :key="photo.id"
+      v-else
+      v-for="(photo, index) in loading ? Array(8).fill({}) : photos"
+      :key="photo.id || index"
       class="photo-item"
       :class="{ loading }"
-      @click="showPhoto(photo)"
+      @click="() => showPhoto(photo)"
     >
       <div v-if="loading" class="skeleton-wrapper">
         <div class="skeleton-avatar"></div>
@@ -32,7 +36,7 @@
 <script>
 export default {
   name: "PhotoGrid",
-  props: ["photos", "loading"],
+  props: ["photos", "loading", "searchQuery"],
   methods: {
     showPhoto(photo) {
       this.$emit("show-photo", photo);
@@ -78,8 +82,6 @@ export default {
 
     .skeleton-wrapper {
       display: flex;
-      column-count: 3;
-      column-gap: 20px;
       align-items: center;
       padding: 1rem;
       height: 100%;
@@ -139,6 +141,13 @@ export default {
         font-size: 12px;
       }
     }
+  }
+
+  .no-results {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #555;
+    margin-top: 20px;
   }
 
   @keyframes shimmer {
