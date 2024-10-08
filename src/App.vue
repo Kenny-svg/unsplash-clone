@@ -3,9 +3,8 @@
     <div v-if="searching" class="search-status">
       Searching for "{{ searchQuery }}"
     </div>
-    <div v-else>
-      <SearchComponent @search="getPhotos" />
-    </div>
+    <SearchComponent @searching="handleSearching" @search="getPhotos" />
+
     <div v-if="!searching && searchQuery" class="search-status">
       Search results for "{{ searchQuery }}"
     </div>
@@ -42,15 +41,18 @@ export default {
     this.getPhotos();
   },
   methods: {
-    async getPhotos(photos = null, query = "") {
+    handleSearching() {
       this.searching = true;
-      this.searchQuery = query;
       this.loading = true;
+    },
+    async getPhotos(photos = null, query = "") {
+      this.searchQuery = query;
 
       if (photos) {
         this.photos = photos;
       } else {
         try {
+          this.loading = true;
           const response = await this.$axios.get(
             "https://api.unsplash.com/photos"
           );

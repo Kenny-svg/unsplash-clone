@@ -12,10 +12,11 @@
         :src="photo?.urls?.small"
         :alt="photo?.alt_description"
       />
-      <div v-if="loading" class="overlay">
-        <p>{{ photo?.user.name }}</p>
+      <div v-if="loading" class="skeleton-overlay"></div>
+      <div class="overlay">
+        <p>{{ photo?.user?.name }}</p>
         <p class="photo-location">
-          {{ photo?.user.location || "Unknown location" }}
+          {{ photo?.user?.location || "Unknown location" }}
         </p>
       </div>
     </div>
@@ -62,15 +63,21 @@ export default {
     background: #e9edf1;
     transition: background 0.3s ease;
 
-    &.loading {
+    &.loading .skeleton-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: linear-gradient(90deg, #e9edf1 25%, #f3f6f9 50%, #e9edf1 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite linear;
+      z-index: 2;
     }
 
     img {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
       transition: transform 0.3s ease;
     }
@@ -97,6 +104,7 @@ export default {
       justify-content: flex-end;
       height: 100%;
       transition: background 0.3s ease;
+      z-index: 1;
 
       p {
         margin: 5px 0;
