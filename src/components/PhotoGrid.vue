@@ -7,17 +7,23 @@
       :class="{ loading }"
       @click="showPhoto(photo)"
     >
-      <img
-        v-if="!loading"
-        :src="photo?.urls?.small"
-        :alt="photo?.alt_description"
-      />
-      <div v-if="loading" class="skeleton-overlay"></div>
-      <div class="overlay">
-        <p>{{ photo?.user?.name }}</p>
-        <p class="photo-location">
-          {{ photo?.user?.location || "Unknown location" }}
-        </p>
+      <div v-if="loading" class="skeleton-wrapper">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-text skeleton-text-name"></div>
+        <div class="skeleton-text skeleton-text-location"></div>
+      </div>
+      <div v-else>
+        <img
+          :src="photo?.urls?.small"
+          :alt="photo?.alt_description"
+          class="photo-image"
+        />
+        <div class="overlay">
+          <p>{{ photo?.user?.name }}</p>
+          <p class="photo-location">
+            {{ photo?.user?.location || "Unknown location" }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -63,27 +69,46 @@ export default {
     background: #e9edf1;
     transition: background 0.3s ease;
 
-    &.loading .skeleton-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+    &.loading {
+      .photo-image,
+      .overlay {
+        display: none;
+      }
+    }
+
+    .skeleton-wrapper {
+      display: flex;
+      column-count: 3;
+      column-gap: 20px;
+      align-items: center;
+      padding: 1rem;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .skeleton-text {
+      width: 60%;
+      height: 20px;
       background: linear-gradient(90deg, #e9edf1 25%, #f3f6f9 50%, #e9edf1 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite linear;
-      z-index: 2;
+      border-radius: 5px;
+      margin-bottom: 10px;
     }
 
-    img {
+    .skeleton-text-name {
+      width: 80%;
+    }
+
+    .skeleton-text-location {
+      width: 60%;
+    }
+
+    .photo-image {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    &:hover img {
-      transform: scale(1.05);
+      border-radius: 10px;
     }
 
     .overlay {
