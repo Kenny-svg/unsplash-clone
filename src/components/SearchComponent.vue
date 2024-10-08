@@ -45,6 +45,9 @@ export default {
 .search-input-wrapper {
   position: relative;
   width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-icon {
