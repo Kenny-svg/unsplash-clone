@@ -1,12 +1,12 @@
 <template>
   <div class="background">
-    <div v-if="searching" class="search-status">
-      Searching for "{{ searchQuery }}"
-    </div>
     <SearchComponent @searching="handleSearching" @search="getPhotos" />
+    <div v-if="searching" class="search-status">
+      Searching for <span class="search-query">"{{ searchQuery }}"</span>
+    </div>
 
     <div v-if="!searching && searchQuery" class="search-status">
-      Search results for "{{ searchQuery }}"
+      Search results for <span class="search-query">"{{ searchQuery }}"</span>
     </div>
     <PhotoGrid :photos="photos" :loading="loading" @show-photo="showPhoto" />
     <ModalComponent
@@ -91,9 +91,11 @@ export default {
 }
 
 .search-status {
-  text-align: center;
-  margin: 20px;
-  font-size: 1.2rem;
+  margin-left: 150px;
+  font-size: 2rem;
   color: #555;
+}
+.search-query {
+  color: darkgray;
 }
 </style>
