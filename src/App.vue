@@ -115,6 +115,7 @@ export default {
   margin-left: 150px;
   font-size: 2rem;
   color: #555;
+  font-weight: 500;
 }
 .search-query {
   color: darkgray;
