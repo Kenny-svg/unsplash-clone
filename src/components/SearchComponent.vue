@@ -61,10 +61,31 @@ export default {
 
 input {
   width: 100%;
-  padding: 15px 15px 15px 35px; /* Padding-left adjusted for the icon */
+  padding: 15px 15px 15px 35px;
   font-size: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: none;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .search-bar {
+    margin-bottom: 35px;
+    margin: auto;
+  }
+  .search-input-wrapper {
+    position: relative;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  input {
+    width: 100%;
+    padding: 15px 15px 15px 35px;
+    font-size: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
 }
 </style>
