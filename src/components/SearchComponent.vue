@@ -63,11 +63,12 @@ export default {
 
 input {
   width: 100%;
-  padding: 15px 15px 15px 35px;
+  padding: 25px 15px 25px 35px;
   font-size: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: none;
+  color: #000;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .search-bar {
