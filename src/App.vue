@@ -55,11 +55,17 @@ export default {
         try {
           this.loading = true;
           const response = await this.$axios.get(
-            "https://api.unsplash.com/photos"
+            "https://api.unsplash.com/search/photos",
+            {
+              params: {
+                query: "Africa",
+                per_page: 8,
+              },
+            }
           );
-          this.photos = response.data;
+          this.photos = response.data.results;
         } catch (error) {
-          console.error("Error fetching photos:", error);
+          console.error("Error fetching African-themed photos:", error);
         }
       }
 
