@@ -38,6 +38,9 @@ export default {
       searchQuery: "",
     };
   },
+  mounted() {
+    this.getPhotos();
+  },
   methods: {
     async getPhotos(photos = null, query = "") {
       this.searching = true;
