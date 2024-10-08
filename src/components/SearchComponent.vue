@@ -25,7 +25,7 @@ export default {
     async searchPhotos() {
       try {
         this.$emit("search", this.query);
-        this.$emit("searching");
+        this.$emit("searching", this.query);
         const response = await this.$axios.get(
           `https://api.unsplash.com/search/photos?query=${this.query}`
         );

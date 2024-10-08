@@ -41,7 +41,8 @@ export default {
     this.getPhotos();
   },
   methods: {
-    handleSearching() {
+    handleSearching(query) {
+      this.searchQuery = query;
       this.searching = true;
       this.loading = true;
     },
